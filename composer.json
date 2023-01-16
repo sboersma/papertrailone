@@ -1,0 +1,17 @@
+{
+    "name": "sboersma/papertrailone",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Sboersma\\Papertrailone\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sander Boersma",
+            "email": "mail@sboersma.nl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
