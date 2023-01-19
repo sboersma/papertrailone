@@ -1,6 +1,5 @@
 {
     "name": "sboersma/papertrailone",
-    "type": "library",
     "autoload": {
         "psr-4": {
             "Sboersma\\Papertrail\\": "src/"
