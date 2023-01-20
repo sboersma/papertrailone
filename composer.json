@@ -2,7 +2,7 @@
     "name": "sboersma/papertrailone",
     "autoload": {
         "psr-4": {
-            "Sboersma\\Papertrail\\": "src/"
+            "Papertrail\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,15 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Papertrail\\PapertrailServiceProvider"
+            ],
+            "aliases": {
+                "Papertrail": "Papertrail\\Facade"
+            }
+        }
+    }
 }

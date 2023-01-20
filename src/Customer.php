@@ -1,8 +1,9 @@
 <?php
+namespace Papertrail;
 
-namespace Sboersma\Papertrail;
+use Papertrail\Concerns\ManagesCustomer;
 
 trait Customer
 {
-
+    use ManagesCustomer;
 }
