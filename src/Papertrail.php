@@ -2,17 +2,40 @@
 
 namespace Papertrail;
 
-use Stripe\StripeClient;
+use GuzzleHttp\Client;
+use Papertrail\Service\CustomerService;
 
 class Papertrail {
 
+    protected $client;
+
+    public function __construct() {
+        $this->client = $this->client();
+    }
+
     public static function client(array $options = [])
     {
-        return new StripeClient(array_merge([
-            'api_key' => $options['api_key'] ?? config('cashier.secret'),
-            'stripe_version' => static::STRIPE_VERSION,
-            'api_base' => static::$apiBaseUrl,
+        return new Client(array_merge([
+            'base_uri' => 'https://api.papertrail.one/v1',
+            'timeout'  => 2.0,
         ], $options));
     }
+
+
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    protected function request($method, $path, $params, $opts)
+    {
+        return $this->getClient()->request($method, $path, static::formatParams($params), $opts);
+    }
+
+    public function customers()
+    {
+        return new CustomerService($this->getClient());
+    }
+
 
 }
