@@ -57,10 +57,10 @@ trait ManagesCustomer {
         if ($this->hasPapertrailId()) {
             throw CustomerAlreadyCreated::exists($this);
         }
+        
 
-
-        if (!array_key_exists('name', $options) && $name = $this->name) {
-            $options['name'] = $name;
+        if (!array_key_exists('email', $options)) {
+            $options['email'] = $this->email;
         }
 
 

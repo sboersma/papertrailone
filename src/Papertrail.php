@@ -4,6 +4,7 @@ namespace Papertrail;
 
 use GuzzleHttp\Client;
 use Papertrail\Service\CustomerService;
+use Papertrail\Service\QuotationService;
 
 class Papertrail {
 
@@ -39,7 +40,12 @@ class Papertrail {
 
     public function quotations()
     {
-        return new CustomerService($this->getClient());
+        return new QuotationService($this->getClient());
+    }
+
+    public function countries()
+    {
+        return new CountryService($this->getClient());
     }
 
 

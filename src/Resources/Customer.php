@@ -24,11 +24,20 @@ class Customer extends Resource
 
     public function isValid()
     {
-        return (bool) $this->isValid;
+        return (bool)$this->isValid;
     }
 
     public function address()
     {
-        return new Address($this->address);
+        if ($this->address) {
+            return new Address($this->address);
+        }
+    }
+
+    public function createQuotation($params)
+    {
+        $params['customer_id'] = $this->id;
+        $this->papertrail = new Papertrail();
+        return new Quotation($this->papertrail->quotations()->create($params));
     }
 }
