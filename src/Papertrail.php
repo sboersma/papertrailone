@@ -37,5 +37,10 @@ class Papertrail {
         return new CustomerService($this->getClient());
     }
 
+    public function quotations()
+    {
+        return new CustomerService($this->getClient());
+    }
+
 
 }

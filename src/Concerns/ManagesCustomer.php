@@ -3,8 +3,14 @@ namespace Papertrail\Concerns;
 
 use Papertrail\Exceptions\CustomerAlreadyCreated;
 use Papertrail\Papertrail;
+use Papertrail\Resources\Customer;
 
 trait ManagesCustomer {
+
+    public function papertrailFields()
+    {
+        return ['is_company', 'company_name', 'firstname', 'lastname', 'tax_id', 'street', 'number', 'city', 'country', 'zip_code'];
+    }
 
     public function papertrailId()
     {
@@ -46,11 +52,11 @@ trait ManagesCustomer {
         return new Papertrail();
     }
 
-    public function createAsPapertrailCustomer(array $options = [])
+    public function createAsCustomer(array $options = [])
     {
-        /*if ($this->hasPapertrailId()) {
+        if ($this->hasPapertrailId()) {
             throw CustomerAlreadyCreated::exists($this);
-        }*/
+        }
 
 
         if (!array_key_exists('name', $options) && $name = $this->name) {
@@ -62,14 +68,31 @@ trait ManagesCustomer {
         // Here we will create the customer instance on Stripe and store the ID of the
         // user from Stripe. This ID will correspond with the Stripe user instances
         // and allow us to retrieve users from Stripe later when we need to work.
-        $customer = $this->papertrail()->customers()->create($options);
-        
-        $this->papertrail_id = $customer->data->uuid;
+        $customer = new Customer($this->papertrail()->customers()->create($options));
+
+        $this->papertrail_id = $customer->id;
 
         $this->save();
 
         return $customer;
     }
+
+    public function asCustomer()
+    {
+        if (!$this->hasPapertrailId()) {
+            // change
+            throw CustomerAlreadyCreated::exists($this);
+        }
+
+        return new Customer($this->papertrail()->customers()->retrieve($this->papertrailId(), []));
+    }
+
+    public function updateCustomer($data)
+    {
+        return new Customer($this->papertrail()->customers()->update($this->papertrailId(), ['form_params' => $data]));
+    }
+
+
 
 
 }
